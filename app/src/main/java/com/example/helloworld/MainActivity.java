@@ -19,14 +19,6 @@ public class MainActivity extends AppCompatActivity {
     TextView View3 = null;
     TextView View4 = null;
     TextView View5 = null;
-    TextView View6 = null;
-    TextView View7 = null;
-    TextView View8 = null;
-    TextView View9 = null;
-    TextView View10 = null;
-    TextView View11 = null;
-    TextView View12 = null;
-    float[] angle = new float[3];
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,32 +29,16 @@ public class MainActivity extends AppCompatActivity {
         View3 = (TextView) findViewById(R.id.edt3);
         View4 = (TextView) findViewById(R.id.edt4);
         View5 = (TextView) findViewById(R.id.edt5);
-        View6 = (TextView) findViewById(R.id.edt6);
-        View7 = (TextView) findViewById(R.id.edt7);
-        View8 = (TextView) findViewById(R.id.edt8);
-        View9 = (TextView) findViewById(R.id.edt9);
-        View10 = (TextView) findViewById(R.id.edt10);
-        View11 = (TextView) findViewById(R.id.edt11);
-        View12 = (TextView) findViewById(R.id.edt12);
     }
     private SensorEventListener listener = new SensorEventListener() {
         @Override
         public void onSensorChanged(SensorEvent event) {
             synchronized (this) {
-                String str = "X：" + event.values[0] + "，Y：" + event.values[1] + "，Z：" + event.values[2];
+                String str = "X：" + event.values[0] + "，\nY：" + event.values[1] + "，\nZ：" + event.values[2];
                 View1.setText("TYPE：" + event.sensor.getType());
                 switch (event.sensor.getType()) {
-                    case Sensor.TYPE_ACCELEROMETER:
-                        View2.setText("加速度：" + str);
-                        break;
-                    case Sensor.TYPE_GYROSCOPE:
-                        View3.setText("陀螺仪：" + str);
-                        break;
-                    case Sensor.TYPE_MAGNETIC_FIELD:
-                        View4.setText("磁力计：" + str);
-                        break;
-                    case Sensor.TYPE_ORIENTATION:
-                        View5.setText("方向传感器：" + str);
+                    case Sensor.TYPE_ORIENTATION:       // 方向传感器信息
+                        View2.setText("方向传感器：\n" + str);
                         break;
                 }
             }
@@ -70,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onAccuracyChanged(Sensor sensor, int accuracy) {
+            /*日志添加信息*/
             Log.d(tag, "onAccuracyChanged: " + sensor + ", accuracy: " + accuracy);
         }
 
@@ -77,15 +54,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        sm.registerListener(listener,
-                sm.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
-                SensorManager.SENSOR_DELAY_UI);
-        sm.registerListener(listener,
-                sm.getDefaultSensor(Sensor.TYPE_GYROSCOPE),
-                SensorManager.SENSOR_DELAY_UI);
-        sm.registerListener(listener,
-                sm.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD),
-                SensorManager.SENSOR_DELAY_UI);
+        /*方向传感器监听注册*/
         sm.registerListener(listener,
                 sm.getDefaultSensor(Sensor.TYPE_ORIENTATION),
                 SensorManager.SENSOR_DELAY_UI);
@@ -93,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onStop() {
+        /*软件关闭时关闭监听传感器信息*/
         sm.unregisterListener(listener);
         super.onStop();
     }
