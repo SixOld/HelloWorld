@@ -30,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private Button bt_clean;
     String ShowInfomation = "";
     SeekBar ControlSpeed;
+    long startTime = System.currentTimeMillis();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,10 +63,20 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
             if(seekBar.getId() == R.id.ControlSpeed){
-                showspeed.setText("Speed:" + progress);
+                /*手机运行速度过快,单片机跟不上,加上一个时间间隔*/
+                if(System.currentTimeMillis() - startTime > 50){
+                    showspeed.setText("Speed:" + progress);
+                    char[] send_data = new char[4];
+                    send_data[0] = 66;
+                    send_data[1] = 66;
+                    send_data[2] = (char)progress;
+                    send_data[3] = (char) (send_data[0] + send_data[1] + send_data[2]);
+                    String str = String.valueOf(send_data);
+                    new SendAsyncTask().execute(str);
+                    startTime = System.currentTimeMillis();
+                }
             }
         }
-
         /*按住触发*/
         @Override
         public void onStartTrackingTouch(SeekBar seekBar) {
