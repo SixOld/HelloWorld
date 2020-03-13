@@ -158,7 +158,7 @@ public class MainActivity extends AppCompatActivity {
                     /*每次有新消息滚动条自动滑到最底下显示新消息*/
                     if(ScrollReceive.getChildAt(0).getHeight() -
                             ScrollReceive.getHeight() -
-                            ScrollReceive.getScrollY() <= 50){
+                            ScrollReceive.getScrollY() <= 80){
                         ScrollReceive.post(new Runnable() {
                             @Override
                             public void run() {
