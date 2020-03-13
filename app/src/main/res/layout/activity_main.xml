@@ -33,6 +33,27 @@
         android:text=""
         android:id="@+id/edt5"
         />
-
-
+    <TextView
+        android:id="@+id/tv_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#fe9920"
+        android:gravity="left"
+        android:text="接收的内容" />
+    <Button
+        android:id="@+id/bt_send"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="发送" />
+    <Button
+        android:id="@+id/bt_clean"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="清除" />
+    <TextView
+        android:id="@+id/tv_send_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="33dp"
+        android:text="发送的内容" />
 </LinearLayout>
