@@ -16,12 +16,12 @@
         android:id="@+id/ShowSensor"
         />
     <TextView
-        android:id="@+id/tv_content"
+        android:id="@+id/tv_send_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#fe9920"
-        android:gravity="left"
-        android:text="接收的内容" />
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="发送的内容" />
     <Button
         android:id="@+id/bt_send"
         android:layout_width="match_parent"
@@ -32,13 +32,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="清除" />
-    <TextView
-        android:id="@+id/tv_send_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:gravity="center"
-        android:text="发送的内容" />
+    <ScrollView
+        android:id="@+id/ScrollReceive"
+        android:layout_width="fill_parent"
+        android:background="#fe9920"
+        android:layout_height="180dp" >
+        <TextView
+            android:id="@+id/tv_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:text="接收的内容" />
+    </ScrollView>
+
     <TextView
         android:id="@+id/ShowSpeed"
         android:layout_width="match_parent"

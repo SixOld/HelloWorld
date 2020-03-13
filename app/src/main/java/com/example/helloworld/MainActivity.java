@@ -14,6 +14,7 @@ import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,13 +25,14 @@ public class MainActivity extends AppCompatActivity {
     SensorManager sm = null;
     TextView ShowIP = null;
     TextView ShowSensor = null;
-    private TextView showspeed = null;
-    private TextView tv_content, tv_send_text;
-    private Button bt_send;
-    private Button bt_clean;
+    TextView showspeed = null;
+    TextView tv_content, tv_send_text;
+    Button bt_send;
+    Button bt_clean;
     String ShowInfomation = "";
     SeekBar ControlSpeed;
     long startTime = System.currentTimeMillis();
+    ScrollView ScrollReceive = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
         /*滚动条初始化*/
         ControlSpeed = findViewById(R.id.ControlSpeed);
         ControlSpeed.setOnSeekBarChangeListener(seekBarChangeListener);
+        /*可滚动长文本初始化*/
+        ScrollReceive = findViewById(R.id.ScrollReceive);
         /*获取IP相关*/
         Context mContext = getApplicationContext();
         ShowIP.setText("IP：" + GetLocalIP.getLocalIPAddress(mContext));
@@ -144,13 +148,26 @@ public class MainActivity extends AppCompatActivity {
     }
     @SuppressLint("HandlerLeak")
     Handler handler = new Handler() {
+        @SuppressLint("ResourceType")
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 1:
                     ShowInfomation += msg.obj;
                     tv_content.setText("WiFi模块发送的：\n" + ShowInfomation);
-                    Toast.makeText(MainActivity.this, "接收到信息", Toast.LENGTH_LONG)
+                    /*每次有新消息滚动条自动滑到最底下显示新消息*/
+                    if(ScrollReceive.getChildAt(0).getHeight() -
+                            ScrollReceive.getHeight() -
+                            ScrollReceive.getScrollY() <= 50){
+                        ScrollReceive.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                // TODO Auto-generated method stub
+                                ScrollReceive.fullScroll(ScrollView.FOCUS_DOWN);
+                            }
+                        });
+                    }
+                    Toast.makeText(MainActivity.this, "接收到信息", Toast.LENGTH_SHORT)
                             .show();
             }
         }
